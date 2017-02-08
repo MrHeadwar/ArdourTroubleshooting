@@ -1,0 +1,128 @@
+// - Each question begins with a 'Q' while an answer begins with an 'A'
+// - The label of a question is made of the first letter of the previous answers.
+// e.g.: if the path has been YES > YES > LINUX > NO, the question will be QYYLN
+// - The number of letters after the Q/A is the level of hierarchy
+// - Each level of hierarchy is indented (1 tab)
+// - The svg is created by 'dot -Tsvg -O this_file.dot'
+
+digraph G {
+  //style
+  node [fillcolor=beige, style="rounded,filled", shape=box];
+
+
+  PROBLEM [label="I have no sound"];
+
+    START [label="Is the main meter moving?"];
+		PROBLEM -> START;
+
+      QY [label="Is the master connected to the system's outputs?"];
+      START -> QY [label="yes"];
+
+        AYN [label="Connect the master to the system's outputs"];
+        QY -> AYN [label="no"];
+
+        QYY [label="Do sound work when Ardour is OFF?"];
+  			QY -> QYY [label="yes"];
+
+  				AYYN [label="Fix your sound system"];
+  				QYY -> AYYN [label="no"];
+
+  				QYYY [label="What OS am I on?"];
+  				QYY -> QYYY [label="yes"];
+
+  				  QYYYL [label="What sound system am I using?"];
+  					QYYY -> QYYYL [label="Linux"]
+
+              QYYYLJ [label="When starting jack, do I have an error 'jack server is not running or cannot be started'?"];
+              QYYYL -> QYYYLJ [label="jack"];
+
+                QYYYLJY [label="When starting Jack, do I have an error 'Cannot lock down memory'?"];
+                QYYYLJ -> QYYYLJY [label="yes"];
+
+                  AYYYLJYY [label="Make sure the file /etc/security/limits.d/audio.conf exists.\nIf it is named /etc/security/limits.d/audio.conf.disabled, rename it to the former.\nAun the command 'sudo usermod -a -G audio $USER'\nThen log out and log in again"];
+                  QYYYLJY -> AYYYLJYY [label="yes"];
+
+            QYYYO [label="TODO"];
+            QYYY -> QYYYO [label="Os X"]
+
+            QYYYW [label="TODO"];
+            QYYY -> QYYYW [label="Windows"]
+
+
+			QN [label="Is the playhead moving?"];
+			START -> QN [label="no"];
+
+				QNN [label="Is Ardour's window frozen?"]
+				QN -> QNN [label="no"];
+
+          QNNY [label="TODO"];
+          QNN -> QNNY [label="yes"];
+
+          QNNN [label="In Window > Audio/MIDI setup, is the Audio system stopped?"];
+          QNN -> QNNN [label="no"];
+
+            ANNNY [label="Start the audio system"];
+            QNNN -> ANNNY [label="yes"];
+
+            QNNNN [label="TODO"];
+            QNNN -> QNNNN [label="no"];
+
+				QNY [label="Is there any audio/MIDI in the session?"]
+				QN -> QNY [label="yes"];
+
+					ANYN [label="Add audio/MIDI to the session"]
+					QNY -> ANYN [label="no"];
+
+          QNYY [label="In the mixer, is any track meter moving?"];
+					QNY -> QNYY [label="yes"];
+
+						QNYYY [label="Is this track connected to Master?"];
+						QNYY -> QNYYY [label="yes"];
+
+              ANYYYN [label="Connect the track output to Master"]
+              QNYYY -> ANYYYN [label="no"];
+
+              QNYYYY [label="Is this track muted"];
+  						QNYYY -> QNYYYY [label="yes"];
+
+                ANYYYYY [label="Unmute this track"];
+                QNYYYY -> ANYYYYY [label="yes"];
+
+                QNYYYYN [label="Is the SOLO indicator blinking?"];
+                QNYYYY -> QNYYYYN [label="no"];
+
+                  ANYYYYNY [label="Click the SOLO indicator"];
+                  QNYYYYN -> ANYYYYNY [label="yes"];
+
+                  QNYYYYNN [label="Is the gain slider for this track grayed?"]
+                  QNYYYYN -> QNYYYYNN [label="no"];
+
+                    ANYYYYNNY [label="Disable automation"]
+                    QNYYYYNN -> ANYYYYNNY [label="yes"];
+
+                    ANYYYYNNN [label="Increase the gain on this track"]
+                    QNYYYYNN -> ANYYYYNNN [label="no"];
+                    ANYYYYNNY -> ANYYYYNNN;
+
+						QNYYN [label="Is a track having audio content rec-enabled?"];
+						QNYY -> QNYYN [label="no"];
+
+              ANYYNY [label="Disable rec-enable on this track"];
+  						QNYYN -> ANYYNY [label="yes"];
+
+              QNYYNN [label="Is this track active?"];
+  						QNYYN -> QNYYNN [label="no"];
+
+                ANYYNNN [label="Activate this track"];
+    						QNYYNN -> ANYYNNN [label="no"];
+
+                QNYYNNY [label="Is there any plugin on this track?"];
+    						QNYYNN -> QNYYNNY [label="yes"];
+
+                  ANYYNNYY [label="Disable all the plugins on this track"];
+      						QNYYNNY -> ANYYNNYY [label="yes"];
+
+                  QNYYNNYN [label="TODO"];
+      						QNYYNNY -> QNYYNNYN [label="no"];
+
+    }

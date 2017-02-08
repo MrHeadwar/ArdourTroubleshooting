@@ -1,0 +1,83 @@
+// - Each question begins with a 'Q' while an answer begins with an 'A'
+// - The label of a question is made of the first letter of the previous answers.
+// e.g.: if the path has been YES > YES > LINUX > NO, the question will be QYYLN
+// - The number of letters after the Q/A is the level of hierarchy
+// - Each level of hierarchy is indented (1 tab)
+// - The svg is created by 'dot -Tsvg -O this_file.dot'
+
+digraph G {
+  //style
+  node [fillcolor=beige, style="rounded,filled", shape=box];
+
+  PROBLEM [label="My MIDI device doesnt work in Ardour"];
+
+    START [label="What is my OS?"];
+		PROBLEM -> START;
+
+			QL [label="What sound system am I using?"];
+			START -> QL [label="Linux"];
+
+
+        QL -> QLJYY [label="Alsa"];
+
+        QLJ [label="Is a2jmidid installed on the system?"];
+        QL -> QLJ [label="Jack"];
+
+          QLJN [label="Install a2jmidid"];
+          QLJ -> QLJN [label="no"];
+          QLJN -> QLJY;
+
+          QLJY [label="Is is started?"];
+          QLJ -> QLJY [label="yes"];
+
+            QLJYN [label="Start it : 'a2jmidid -e'"];
+            QLJY -> QLJYN [label="no"];
+            QLJYN-> QLJYY;
+
+            QLJYY [label="In Ardour, have I created a MIDI track?"];
+            QLJY -> QLJYY [label="yes"];
+
+              QLJYYN [label="Create a MIDI track"];
+              QLJYY -> QLJYYN [label="no"];
+              QLJYYN -> QLJYYY;
+
+              QLJYYY [label="Is there a working synth on the track?"];
+              QLJYY -> QLJYYY [label="yes"];
+
+                QLJYYYN [label="Insert a reasonable synth on the track"];
+                QLJYYY -> QLJYYYN [label="no"];
+                QLJYYYN -> QLJYYYY;
+
+                QLJYYYY [label="Insert a reasonable synth on the track"];
+                QLJYYY -> QLJYYYY [label="yes"];
+
+
+
+
+
+
+
+        QW [label="What sound system am I using?"];
+  			START -> QW [label="Windows"];
+
+          QWA [label="TODO"];
+  			  QW -> QWA [label="ASIO"];
+          QWA -> QLJYY;
+
+
+        QO [label="What sound system am I using?"];
+  			START -> QO [label="Os X"];
+
+          QOC [label="TODO"];
+          QO -> QOC [label="CoreMIDI"];
+          QOC -> QLJYY;
+
+          //QOJ [label="TODO"];
+          QO -> QLJ [label="Jack"];
+          //QOJ -> QLJYY;
+
+
+
+
+
+    }
